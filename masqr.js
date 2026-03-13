@@ -1,11 +1,14 @@
 import fs from "fs"
 import path from "path"
+import { fileURLToPath } from "url"
 import fetch from "node-fetch"
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export const LICENSE_SERVER_URL = "http://localhost:8004/validate?license="
 export const whiteListedDomains = []
-export const failure = fs.readFileSync("Checkfailed.html", "utf8")
-export const placeholder = fs.readFileSync("placeholder.svg", "utf8")
+export const failure = fs.readFileSync(path.join(__dirname, "Checkfailed.html"), "utf8")
+export const placeholder = fs.readFileSync(path.join(__dirname, "placeholder.svg"), "utf8")
 
 export async function MasqFail(req, reply) {
   if (!req.headers.host) return

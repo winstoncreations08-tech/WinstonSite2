@@ -36,6 +36,8 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/public ./public
 COPY --from=build /app/server.js ./server.js
 COPY --from=build /app/masqr.js ./masqr.js
+COPY --from=build /app/Checkfailed.html ./Checkfailed.html
+COPY --from=build /app/placeholder.svg ./placeholder.svg
 
 # Run as non-root (the official node image defines a 'node' user)
 USER node
