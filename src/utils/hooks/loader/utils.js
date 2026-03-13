@@ -79,18 +79,22 @@ export const process = (input, decode = false, prType, engine = "https://www.goo
     default: {
       const url = check(input, engine);
       const isBlacklisted = [...scrblist].some(d => url.includes(d));
+      const isWhitelisted = [...scrwlist].some(d => url.includes(d));
 
-      // Adaptive: check learned preferences first
-      const hostname = extractHostname(url);
-      const adaptivePref = hostname ? getPreferredEngine(hostname) : null;
-
-      if (!isBlacklisted && adaptivePref) {
-        // Use the engine that previously worked well for this domain
-        prefix = adaptivePref === 'scr' ? eggowaffle : upwefix;
+      // Static whitelist/blacklist has higher priority than learned preference.
+      if (isBlacklisted) {
+        prefix = upwefix; // force ultraviolet for blacklisted domains
+      } else if (isWhitelisted) {
+        prefix = eggowaffle; // force scramjet for whitelisted domains
       } else {
-        // Fall back to static whitelist
-        const match = [...scrwlist].some(d => url.includes(d));
-        prefix = (!isBlacklisted && match) ? eggowaffle : upwefix;
+        // Adaptive: check learned preferences only when no explicit list match.
+        const hostname = extractHostname(url);
+        const adaptivePref = hostname ? getPreferredEngine(hostname) : null;
+        if (adaptivePref) {
+          prefix = adaptivePref === 'scr' ? eggowaffle : upwefix;
+        } else {
+          prefix = upwefix;
+        }
       }
       break;
     }
