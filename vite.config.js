@@ -7,11 +7,13 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import { logging, server as wisp } from '@mercuryworkshop/wisp-js/server';
 import { createBareServer } from '@tomphttp/bare-server-node';
 import { bareModulePath } from '@mercuryworkshop/bare-as-module3';
-import { libcurlPath } from '@mercuryworkshop/libcurl-transport';
 import { baremuxPath } from 'bare-mux-fork/node';
 import { scramjetPath } from '@mercuryworkshop/scramjet/path';
 import { uvPath } from '@titaniumnetwork-dev/ultraviolet';
+import { createRequire } from 'node:module';
 import dotenv from 'dotenv';
+const require = createRequire(import.meta.url);
+const epoxyPath = dirname(require.resolve('@mercuryworkshop/epoxy-transport'));
 
 dotenv.config();
 const useBare = process.env.BARE === 'false' ? false : true;
@@ -201,7 +203,7 @@ export default defineConfig(({ command }) => {
       vitePluginBundleObfuscator(obf),
       viteStaticCopy({
         targets: [
-          { src: [normalizePath(resolve(libcurlPath, '*'))], dest: 'libcurl' },
+          { src: [normalizePath(resolve(epoxyPath, '*'))], dest: 'epoxy' },
           { src: [normalizePath(resolve(baremuxPath, '*'))], dest: 'baremux' },
           { src: [normalizePath(resolve(scramjetPath, '*'))], dest: 'eggs' },
           useBare && { src: [normalizePath(resolve(bareModulePath, '*'))], dest: 'baremod' },
@@ -238,7 +240,7 @@ export default defineConfig(({ command }) => {
               .replace(/['"]\/eggs\/scramjet\.wasm\.wasm['"]/g, "'https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/eggs/scramjet.wasm.wasm'")
               .replace(/['"]\/eggs\/scramjet\.all\.js['"]/g, "'https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/eggs/scramjet.all.js'")
               .replace(/['"]\/eggs\/scramjet\.sync\.js['"]/g, "'https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/eggs/scramjet.sync.js'")
-              .replace(/['"]\/libcurl\/index\.mjs['"]/g, "'https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/libcurl/index.mjs'");
+              .replace(/['"]\/epoxy\/index\.mjs['"]/g, "'https://cdn.jsdelivr.net/gh/DogeNetwork/v5-assets/epoxy/index.mjs'");
           }
         },
       },

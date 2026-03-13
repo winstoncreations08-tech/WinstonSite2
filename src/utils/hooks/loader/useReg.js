@@ -84,10 +84,10 @@ export default function useReg() {
         return;
       }
 
-      const libcurlPath = isStaticBuild
-        ? new URL('./libcurl/index.mjs', location.href).pathname
-        : '/libcurl/index.mjs';
-      await connection.setTransport(libcurlPath, [
+      const epoxyPath = isStaticBuild
+        ? new URL('./epoxy/index.mjs', location.href).pathname
+        : '/epoxy/index.mjs';
+      await connection.setTransport(epoxyPath, [
         {
           wisp: isStaticBuild ? activeWisp : ws,
         },
