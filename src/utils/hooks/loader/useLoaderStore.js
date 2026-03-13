@@ -10,6 +10,7 @@ const store = create((set) => ({
       history: ['tabs://new'],
       historyIndex: 0,
       isLoading: false,
+      retryCount: 0,
     },
   ],
   frameRefs: null,
@@ -59,6 +60,7 @@ const store = create((set) => ({
           history: [tab.url || 'tabs://new'],
           historyIndex: 0,
           isLoading: false,
+          retryCount: 0,
         },
       ],
     })),
@@ -108,6 +110,10 @@ const store = create((set) => ({
   setLoading: (tabId, isLoading) =>
     set((state) => ({
       tabs: state.tabs.map((tab) => (tab.id === tabId ? { ...tab, isLoading } : tab)),
+    })),
+  setRetryCount: (tabId, count) =>
+    set((state) => ({
+      tabs: state.tabs.map((tab) => (tab.id === tabId ? { ...tab, retryCount: count } : tab)),
     })),
   refreshTab: (tabId) => {
     const state = store.getState();
@@ -181,6 +187,7 @@ const store = create((set) => ({
           history: ['tabs://new'],
           historyIndex: 0,
           isLoading: false,
+          retryCount: 0,
         },
       ],
       frameRefs: null,

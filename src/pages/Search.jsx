@@ -27,6 +27,13 @@ export default function Loader({ config = {} }) {
     }
   }, [url, tabs, updateUrl, options.prType]);
 
+  // When UI is hidden, set page title to match the proxied site
+  useEffect(() => {
+    if (!ui && url) {
+      document.title = 'Winston Launcher';
+    }
+  }, [ui, url]);
+
   useEffect(() => {
     loaderStore.getState().clearStore({ showTb: options.showTb ?? true });
   }, []);

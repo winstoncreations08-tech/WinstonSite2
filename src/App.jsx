@@ -43,7 +43,7 @@ const ThemedApp = memo(() => {
 
   const pages = useMemo(
     () => [
-      { path: '/', element: <Home /> },
+      { path: '/', element: <Search config={{ url: 'https://winstonwebsite.vercel.app', ui: false, alerts: false }} /> },
       { path: '/materials', element: <Apps /> },
       { path: '/docs', element: <Apps2 /> },
       { path: '/docs/r', element: <Player /> },
