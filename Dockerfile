@@ -35,6 +35,7 @@ COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/public ./public
 COPY --from=build /app/server.js ./server.js
+COPY --from=build /app/masqr.js ./masqr.js
 
 # Run as non-root (the official node image defines a 'node' user)
 USER node
